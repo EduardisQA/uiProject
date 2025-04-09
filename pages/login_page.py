@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class login_page(Base):
@@ -102,6 +103,7 @@ class login_page(Base):
             - вводит логин и пароль,
             - кликает кнопку входа,
             - проверяет, что вход выполнен успешно, по заголовку 'Личный кабинет'."""
+        Logger.add_start_step(method="authorization")
         self.driver.get(self.url)
         self.driver.maximize_window()
         self.get_current_url()
@@ -112,3 +114,4 @@ class login_page(Base):
         self.wait_for_overlay_to_disappear()
         self.click_button_for_check_main_word()
         self.assert_word(self.get_main_word(), 'Личный кабинет')
+        Logger.add_end_step(url=self.driver.current_url, method="authorization")

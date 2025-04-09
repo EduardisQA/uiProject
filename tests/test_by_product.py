@@ -44,7 +44,7 @@ def test_buy_product_1(set_group):
     print("Finish test 1")
 
 
-# # @pytest.mark.run(order=1)
+# @pytest.mark.run(order=1)
 
 
 def test_buy_product_2():
