@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -163,48 +164,49 @@ class Personal_page(Base):
         """Полный сценарий проверки разделов личного кабинета:
             - Отмена заказа;
             - Переход по основным разделам с проверкой заголовков."""
-        Logger.add_start_step(method="personal_information")
-        self.driver.get(self.url)
-        self.get_current_url()
+        with allure.step("Personal information"):
+            Logger.add_start_step(method="personal_information")
+            self.driver.get(self.url)
+            self.get_current_url()
 
-        # 1. Отмена заказа
-        self.click_current_orders()
-        self.assert_word(self.get_my_orders_word(), 'Мои заказы')
-        self.click_cancel_order()
-        self.click_order_cancellation_radio_button()
-        self.click_confirmation_cancel_order()
+            # 1. Отмена заказа
+            self.click_current_orders()
+            self.assert_word(self.get_my_orders_word(), 'Мои заказы')
+            self.click_cancel_order()
+            self.click_order_cancellation_radio_button()
+            self.click_confirmation_cancel_order()
 
-        self.click_my_office_button()
-        self.get_current_url()
+            self.click_my_office_button()
+            self.get_current_url()
 
-        # 2. Личные данные
-        self.click_personal_data()
-        self.assert_word(self.get_user_profile_word(), 'Профиль пользователя')
-        self.driver.get(self.url)
+            # 2. Личные данные
+            self.click_personal_data()
+            self.assert_word(self.get_user_profile_word(), 'Профиль пользователя')
+            self.driver.get(self.url)
 
-        # 3. История заказов
-        self.click_order_history()
-        self.assert_word(self.get_my_orders_history_word(), 'Мои заказы')
-        self.click_my_office_button()
+            # 3. История заказов
+            self.click_order_history()
+            self.assert_word(self.get_my_orders_history_word(), 'Мои заказы')
+            self.click_my_office_button()
 
-        # 4. Профили заказов
-        self.click_order_profiles()
-        self.assert_word(self.get_profiles_word(), 'Профили')
-        self.click_my_office_button()
+            # 4. Профили заказов
+            self.click_order_profiles()
+            self.assert_word(self.get_profiles_word(), 'Профили')
+            self.click_my_office_button()
 
-        # 5. Корзина
-        self.click_cart()
-        self.assert_word(self.get_inside_cart_word(), 'Корзина')
-        self.driver.get(self.url)
+            # 5. Корзина
+            self.click_cart()
+            self.assert_word(self.get_inside_cart_word(), 'Корзина')
+            self.driver.get(self.url)
 
-        # 6. Подписки
-        self.click_subscriptions()
-        self.assert_word(self.get_your_subscriptions_word(), 'Ваши подписки')
-        self.click_my_office_button()
+            # 6. Подписки
+            self.click_subscriptions()
+            self.assert_word(self.get_your_subscriptions_word(), 'Ваши подписки')
+            self.click_my_office_button()
 
-        # 7. Контакты
-        self.click_contacts()
-        self.assert_word(self.get_your_contacts_word(), 'Контакты')
-        self.driver.get(self.url)
-        Logger.add_end_step(url=self.driver.current_url, method="personal_information")
+            # 7. Контакты
+            self.click_contacts()
+            self.assert_word(self.get_your_contacts_word(), 'Контакты')
+            self.driver.get(self.url)
+            Logger.add_end_step(url=self.driver.current_url, method="personal_information")
 

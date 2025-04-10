@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -114,19 +115,20 @@ class Order_page(Base):
             - оформляет заказ;
             - проверяет успешное создание заказа;
             - переходит в личный кабинет покупателя."""
-        Logger.add_start_step(method="order_confirmation")
-        self.driver.get(self.url)
-        self.get_current_url()
-        self.assert_word(self.get_payment_option(), 'Наличный расчет')
-        self.assert_word(self.get_delivery_option(), 'Самовывоз по адресу пр-кт Ямашева, 45 (г. Казань)')
-        self.assert_word(self.get_name_element(), 'Эдуард')
-        self.assert_word(self.get_email_element(), 'shaihulove@yandex.ru')
-        self.assert_word(self.get_phone_element(), '8 (950) 323-22-37')
-        self.assert_word(self.get_product_name_order(), product_info["name"])
-        self.assert_price(self.get_product_unit_price_order(), product_info["unit_price"])
-        self.assert_price(self.get_product_total_price_order(), product_info["total_price"])
-        self.click_place_an_order_button()
-        self.assert_word(self.get_order_is_formed(), 'Заказ сформирован')
-        self.click_personal_office_button()
-        self.assert_word(self.get_personal_office(), 'Личный кабинет')
-        Logger.add_end_step(url=self.driver.current_url, method="order_confirmation")
+        with allure.step("Order confirmation"):
+            Logger.add_start_step(method="order_confirmation")
+            self.driver.get(self.url)
+            self.get_current_url()
+            self.assert_word(self.get_payment_option(), 'Наличный расчет')
+            self.assert_word(self.get_delivery_option(), 'Самовывоз по адресу пр-кт Ямашева, 45 (г. Казань)')
+            self.assert_word(self.get_name_element(), 'Эдуард')
+            self.assert_word(self.get_email_element(), 'shaihulove@yandex.ru')
+            self.assert_word(self.get_phone_element(), '8 (950) 323-22-37')
+            self.assert_word(self.get_product_name_order(), product_info["name"])
+            self.assert_price(self.get_product_unit_price_order(), product_info["unit_price"])
+            self.assert_price(self.get_product_total_price_order(), product_info["total_price"])
+            self.click_place_an_order_button()
+            self.assert_word(self.get_order_is_formed(), 'Заказ сформирован')
+            self.click_personal_office_button()
+            self.assert_word(self.get_personal_office(), 'Личный кабинет')
+            Logger.add_end_step(url=self.driver.current_url, method="order_confirmation")

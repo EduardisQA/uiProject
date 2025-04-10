@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -103,15 +104,16 @@ class login_page(Base):
             - вводит логин и пароль,
             - кликает кнопку входа,
             - проверяет, что вход выполнен успешно, по заголовку 'Личный кабинет'."""
-        Logger.add_start_step(method="authorization")
-        self.driver.get(self.url)
-        self.driver.maximize_window()
-        self.get_current_url()
-        self.click_start_login_button()
-        self.input_user_name(self.name)
-        self.input_password(self.user_password)
-        self.click_button_login()
-        self.wait_for_overlay_to_disappear()
-        self.click_button_for_check_main_word()
-        self.assert_word(self.get_main_word(), 'Личный кабинет')
-        Logger.add_end_step(url=self.driver.current_url, method="authorization")
+        with allure.step("Authorization"):
+            Logger.add_start_step(method="authorization")
+            self.driver.get(self.url)
+            self.driver.maximize_window()
+            self.get_current_url()
+            self.click_start_login_button()
+            self.input_user_name(self.name)
+            self.input_password(self.user_password)
+            self.click_button_login()
+            self.wait_for_overlay_to_disappear()
+            self.click_button_for_check_main_word()
+            self.assert_word(self.get_main_word(), 'Личный кабинет')
+            Logger.add_end_step(url=self.driver.current_url, method="authorization")

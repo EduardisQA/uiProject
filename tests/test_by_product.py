@@ -1,3 +1,4 @@
+import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -8,6 +9,8 @@ from pages.login_page import login_page
 from pages.main_page import Main_page
 from pages.cart_page import Cart_page
 from pages.order_page import Order_page
+
+allure.description("Test buy product 1")
 
 
 def test_buy_product_1(set_group):

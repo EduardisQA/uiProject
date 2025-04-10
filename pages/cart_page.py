@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -101,19 +102,20 @@ class Cart_page(Base):
             - Проверка удвоения стоимости при увеличении количества;
             - Переход к оформлению заказа;
             - Возвращение информации о товаре для дальнейших проверок."""
-        Logger.add_start_step(method="product_confirmation")
-        self.driver.get(self.url)
-        self.get_current_url()
-        self.click_icon_cart()
-        self.assert_word(self.get_product_name_element(), self.product_name)
-        self.assert_price(self.get_product_price_element(), self.product_price)
-        self.verify_price_double()
+        with allure.step("Product confirmation"):
+            Logger.add_start_step(method="product_confirmation")
+            self.driver.get(self.url)
+            self.get_current_url()
+            self.click_icon_cart()
+            self.assert_word(self.get_product_name_element(), self.product_name)
+            self.assert_price(self.get_product_price_element(), self.product_price)
+            self.verify_price_double()
 
-        cart_product_info = self.get_cart_product_info()
+            cart_product_info = self.get_cart_product_info()
 
-        self.click_place_order_button()
-        self.assert_word(self.get_compare_page_title(), 'Оформление заказа')
-        Logger.add_end_step(url=self.driver.current_url, method="product_confirmation")
+            self.click_place_order_button()
+            self.assert_word(self.get_compare_page_title(), 'Оформление заказа')
+            Logger.add_end_step(url=self.driver.current_url, method="product_confirmation")
         return cart_product_info
 
     def verify_price_double(self):

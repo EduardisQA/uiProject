@@ -1,5 +1,4 @@
-import time
-
+import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -391,112 +390,117 @@ class Main_page(Base):
 
     def select_products_1(self):
         """Выбирает телевизор Samsung, проверяет корректность названия и цены, добавляет товар в корзину."""
-        Logger.add_start_step(method="select_products_1")
-        self.driver.get(self.url)
-        self.get_current_url()
-        self.click_menu_tv_audio_button()
-        self.click_tv()
-        self.click_sort_by_desc_price()
-        self.product_name = self.get_value_samsung_tv()
-        self.product_price = self.get_price_value_samsung_tv()
-        self.assert_word(self.get_samsung_tv_value(), self.product_name)
-        self.assert_price(self.get_samsung_tv_price_value(), self.product_price)
-        self.click_samsung_tv()
-        self.assert_word(self.get_compare_the_name(), 'Телевизор Samsung QE77S90daexru')
-        self.click_cart_button()
-        self.assert_url('https://zurmarket.ru/catalog/televizory_audio_'
-                        'video/televizory/televizor_samsung_qe77s90daexru.html')
-        Logger.add_end_step(url=self.driver.current_url, method="select_products_1")
+        with allure.step("Select products 1"):
+            Logger.add_start_step(method="select_products_1")
+            self.driver.get(self.url)
+            self.get_current_url()
+            self.click_menu_tv_audio_button()
+            self.click_tv()
+            self.click_sort_by_desc_price()
+            self.product_name = self.get_value_samsung_tv()
+            self.product_price = self.get_price_value_samsung_tv()
+            self.assert_word(self.get_samsung_tv_value(), self.product_name)
+            self.assert_price(self.get_samsung_tv_price_value(), self.product_price)
+            self.click_samsung_tv()
+            self.assert_word(self.get_compare_the_name(), 'Телевизор Samsung QE77S90daexru')
+            self.click_cart_button()
+            self.assert_url('https://zurmarket.ru/catalog/televizory_audio_'
+                            'video/televizory/televizor_samsung_qe77s90daexru.html')
+            Logger.add_end_step(url=self.driver.current_url, method="select_products_1")
 
     def select_products_2(self):
         """Выбирает монитор Xiaomi с использованием фильтра цены и производителя, добавляет товар в корзину."""
-        Logger.add_start_step(method="select_products_2")
-        self.driver.get(self.url)
-        self.get_current_url()
-        self.click_menu_laptop_equipment_button()
-        self.click_monitors()
-        self.adjust_filter_price_slider(-20)
-        self.click_filter_manufacturer()
-        self.click_show_result_search_button()
-        self.driver.execute_script("window.scrollTo(0, 0);")
-        self.click_sort_by_desc_price()
-        self.product_name = self.get_monitor_value_element().text
-        self.product_price = self.get_monitor_price_element().text
-        self.assert_word(self.get_monitor_value_element(), self.product_name)
-        self.assert_price(self.get_monitor_price_element(), self.product_price)
-        self.click_asus_monitor()
-        self.assert_word(self.get_compare_the_name(), 'Монитор Asus Rog Strix Xg49vq')
-        self.click_cart_button()
-        self.assert_url(
-            'https://zurmarket.ru/catalog/kompyutery_noutbuki_orgtekhnika/monitory/monitor_asus_rog_strix_xg49vq.html')
-        Logger.add_end_step(url=self.driver.current_url, method="select_products_2")
+        with allure.step("Select products 2"):
+            Logger.add_start_step(method="select_products_2")
+            self.driver.get(self.url)
+            self.get_current_url()
+            self.click_menu_laptop_equipment_button()
+            self.click_monitors()
+            self.adjust_filter_price_slider(-20)
+            self.click_filter_manufacturer()
+            self.click_show_result_search_button()
+            self.driver.execute_script("window.scrollTo(0, 0);")
+            self.click_sort_by_desc_price()
+            self.product_name = self.get_monitor_value_element().text
+            self.product_price = self.get_monitor_price_element().text
+            self.assert_word(self.get_monitor_value_element(), self.product_name)
+            self.assert_price(self.get_monitor_price_element(), self.product_price)
+            self.click_asus_monitor()
+            self.assert_word(self.get_compare_the_name(), 'Монитор Asus Rog Strix Xg49vq')
+            self.click_cart_button()
+            self.assert_url(
+                'https://zurmarket.ru/catalog/kompyutery_noutbuki_orgtekhnika/monitory/monitor_asus_rog_strix_xg49vq.html')
+            Logger.add_end_step(url=self.driver.current_url, method="select_products_2")
 
     def select_products_3(self):
         """Выбирает холодильник Gorenje с применением нескольких фильтров (наличие, производитель, высота), добавляет в корзину."""
-        Logger.add_start_step(method="select_products_3")
-        self.driver.get(self.url)
-        self.get_current_url()
-        self.hover_on_target_menu_lha()
-        self.click_refrigerators()
-        self.adjust_filter_price_slider(-25)
-        self.click_filter_availability_in_store()
-        self.click_check_box_in_stock_7_10()
-        self.click_filter_manufacturer()
-        self.click_check_box_manufacturer_gorenge()
-        self.click_filter_freezer_location()
-        self.click_check_box_freezer_location_from_below()
-        self.click_filter_compressor_quantity()
-        self.click_check_box_compressor_quantity()
-        self.click_filter_refrigerator_height()
-        self.click_check_box_refrigerator_height()
-        self.click_show_result_search_button()
-        self.click_gorenje_refrigerator()
-        self.assert_word(self.get_compare_the_name(), 'Холодильник Gorenje Nrk6201sybk')
-        self.product_name = self.get_compare_the_name().text
-        self.product_price = self.get_product_price_element().text
-        self.assert_price(self.get_product_price_element(), self.product_price)
-        self.click_cart_button()
-        self.assert_url(
-            'https://zurmarket.ru/catalog/krupnaya_bytovaya_tekhnika/kholodilniki/kholodilnik_gorenje_nrk6201sybk.html')
-        Logger.add_end_step(url=self.driver.current_url, method="select_products_3")
+        with allure.step("Select products 3"):
+            Logger.add_start_step(method="select_products_3")
+            self.driver.get(self.url)
+            self.get_current_url()
+            self.hover_on_target_menu_lha()
+            self.click_refrigerators()
+            self.adjust_filter_price_slider(-25)
+            self.click_filter_availability_in_store()
+            self.click_check_box_in_stock_7_10()
+            self.click_filter_manufacturer()
+            self.click_check_box_manufacturer_gorenge()
+            self.click_filter_freezer_location()
+            self.click_check_box_freezer_location_from_below()
+            self.click_filter_compressor_quantity()
+            self.click_check_box_compressor_quantity()
+            self.click_filter_refrigerator_height()
+            self.click_check_box_refrigerator_height()
+            self.click_show_result_search_button()
+            self.click_gorenje_refrigerator()
+            self.assert_word(self.get_compare_the_name(), 'Холодильник Gorenje Nrk6201sybk')
+            self.product_name = self.get_compare_the_name().text
+            self.product_price = self.get_product_price_element().text
+            self.assert_price(self.get_product_price_element(), self.product_price)
+            self.click_cart_button()
+            self.assert_url(
+                'https://zurmarket.ru/catalog/krupnaya_bytovaya_tekhnika/kholodilniki/kholodilnik_gorenje_nrk6201sybk.html')
+            Logger.add_end_step(url=self.driver.current_url, method="select_products_3")
 
     def select_products_4(self):
         """Выбирает утюг Econ через фильтрацию по складу и производителю, добавляет товар в корзину."""
-        Logger.add_start_step(method="select_products_4")
-        self.driver.get(self.url)
-        self.get_current_url()
-        self.hover_on_target_menu_sha()
-        self.click_category_sha()
-        self.click_irons()
-        self.adjust_filter_price_slider(-5)
-        self.click_filter_availability_in_store()
-        self.click_check_box_in_stock_1_2()
-        self.click_filter_manufacturer()
-        self.click_check_box_manufacturer_econ()
-        self.click_show_result_search_button()
-        self.click_econ_iron()
-        self.assert_word(self.get_compare_the_name(), 'Утюг Econ Eco-Bi2402')
-        self.product_name = self.get_compare_the_name().text
-        self.product_price = self.get_econ_iron_price_element().text
-        self.assert_price(self.get_econ_iron_price_element(), self.product_price)
-        self.click_cart_button()
-        self.assert_url('https://zurmarket.ru/catalog/melkaya_bytovaya_tekhnika/'
-                        'tekhnika_dlya_doma/utyugi_parovye_stantsii/utyug_econ_eco_bi2402.html')
-        Logger.add_end_step(url=self.driver.current_url, method="select_products_4")
+        with allure.step("Select products 4"):
+            Logger.add_start_step(method="select_products_4")
+            self.driver.get(self.url)
+            self.get_current_url()
+            self.hover_on_target_menu_sha()
+            self.click_category_sha()
+            self.click_irons()
+            self.adjust_filter_price_slider(-5)
+            self.click_filter_availability_in_store()
+            self.click_check_box_in_stock_1_2()
+            self.click_filter_manufacturer()
+            self.click_check_box_manufacturer_econ()
+            self.click_show_result_search_button()
+            self.click_econ_iron()
+            self.assert_word(self.get_compare_the_name(), 'Утюг Econ Eco-Bi2402')
+            self.product_name = self.get_compare_the_name().text
+            self.product_price = self.get_econ_iron_price_element().text
+            self.assert_price(self.get_econ_iron_price_element(), self.product_price)
+            self.click_cart_button()
+            self.assert_url('https://zurmarket.ru/catalog/melkaya_bytovaya_tekhnika/'
+                            'tekhnika_dlya_doma/utyugi_parovye_stantsii/utyug_econ_eco_bi2402.html')
+            Logger.add_end_step(url=self.driver.current_url, method="select_products_4")
 
     def select_products_5(self):
         """Выбирает гитару Sigma из раздела музыкальных инструментов"""
-        Logger.add_start_step(method="select_products_5")
-        self.driver.get(self.url)
-        self.get_current_url()
-        self.hover_on_target_menu_other()
-        self.hover_on_target_menu_other_category_musical()
-        self.click_category_musical_instruments_guitars()
-        self.click_sort_by_desc_price()
-        self.click_check_box_manufacturer_sigma()
-        self.click_show_result_search_button()
-        self.click_sigma_guitar()
-        self.assert_word(self.get_compare_the_name(), 'Гитара Sigma Tm12-E')
-        self.assert_word(self.get_compare_the_availability(), 'Нет в наличии')
-        self.assert_url('https://zurmarket.ru/catalog/muzykalnye_instrumenty/gitary/gitara_sigma_tm12_e.html')
-        Logger.add_end_step(url=self.driver.current_url, method="select_products_5")
+        with allure.step("Select products 5"):
+            Logger.add_start_step(method="select_products_5")
+            self.driver.get(self.url)
+            self.get_current_url()
+            self.hover_on_target_menu_other()
+            self.hover_on_target_menu_other_category_musical()
+            self.click_category_musical_instruments_guitars()
+            self.click_sort_by_desc_price()
+            self.click_check_box_manufacturer_sigma()
+            self.click_show_result_search_button()
+            self.click_sigma_guitar()
+            self.assert_word(self.get_compare_the_name(), 'Гитара Sigma Tm12-E')
+            self.assert_word(self.get_compare_the_availability(), 'Нет в наличии')
+            self.assert_url('https://zurmarket.ru/catalog/muzykalnye_instrumenty/gitary/gitara_sigma_tm12_e.html')
+            Logger.add_end_step(url=self.driver.current_url, method="select_products_5")
