@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class Finish_page(Base):
@@ -47,6 +48,7 @@ class Finish_page(Base):
     # Methods
 
     def finish(self):
+        Logger.add_start_step(method="finish")
         self.driver.get(self.url)
         self.get_current_url()
         self.click_personal_office_logo()
@@ -54,3 +56,4 @@ class Finish_page(Base):
         self.click_get_out_button()
         self.assert_word(self.get_start_login_button(), 'Войти')
         self.assert_url('https://zurmarket.ru/?login=yes')
+        Logger.add_end_step(url=self.driver.current_url, method="finish")

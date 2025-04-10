@@ -3,10 +3,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class Personal_page(Base):
-
     """Класс Personal_page отвечает за действия в личном кабинете пользователя на сайте https://zurmarket.ru/.
     Наследуется от базового класса Base, в котором реализованы универсальные методы взаимодействия с элементами.
 
@@ -69,19 +69,19 @@ class Personal_page(Base):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.order_cancellation_radio_button)))
 
     def get_confirmation_cancel_order(self):
-        return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.confirmation_cancel_order)))
+        return WebDriverWait(self.driver, 40).until(EC.element_to_be_clickable((By.XPATH, self.confirmation_cancel_order)))
 
     def get_personal_data(self):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.personal_data)))
 
     def get_user_profile_word(self):
-        return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.user_profile)))
+        return WebDriverWait(self.driver, 40).until(EC.element_to_be_clickable((By.XPATH, self.user_profile)))
 
     def get_order_history(self):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.order_history)))
 
     def get_my_orders_history_word(self):
-        return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.my_orders_history)))
+        return WebDriverWait(self.driver, 40).until(EC.element_to_be_clickable((By.XPATH, self.my_orders_history)))
 
     def get_my_office_button(self):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.my_office_button)))
@@ -90,13 +90,13 @@ class Personal_page(Base):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.order_profiles)))
 
     def get_profiles_word(self):
-        return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.profiles)))
+        return WebDriverWait(self.driver, 40).until(EC.element_to_be_clickable((By.XPATH, self.profiles)))
 
     def get_cart(self):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.cart)))
 
     def get_inside_cart_word(self):
-        return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.inside_cart)))
+        return WebDriverWait(self.driver, 40).until(EC.element_to_be_clickable((By.XPATH, self.inside_cart)))
 
     def get_subscriptions(self):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.subscriptions)))
@@ -157,19 +157,13 @@ class Personal_page(Base):
         self.get_contacts().click()
         print("Click contacts")
 
-    # ===== HELPERS =====
-
-    def go_back_to_personal_page(self):
-        """Возвращает пользователя на страницу личного кабинета."""
-        self.driver.back()
-        print("Return to personal page")
-
     # ===== METHODS =====
 
     def personal_information(self):
         """Полный сценарий проверки разделов личного кабинета:
             - Отмена заказа;
             - Переход по основным разделам с проверкой заголовков."""
+        Logger.add_start_step(method="personal_information")
         self.driver.get(self.url)
         self.get_current_url()
 
@@ -180,36 +174,37 @@ class Personal_page(Base):
         self.click_order_cancellation_radio_button()
         self.click_confirmation_cancel_order()
 
-        self.driver.get(self.url)
+        self.click_my_office_button()
         self.get_current_url()
 
         # 2. Личные данные
         self.click_personal_data()
         self.assert_word(self.get_user_profile_word(), 'Профиль пользователя')
-        self.go_back_to_personal_page()
+        self.driver.get(self.url)
 
         # 3. История заказов
         self.click_order_history()
         self.assert_word(self.get_my_orders_history_word(), 'Мои заказы')
-        self.go_back_to_personal_page()
+        self.click_my_office_button()
 
         # 4. Профили заказов
-        self.click_my_office_button()
         self.click_order_profiles()
         self.assert_word(self.get_profiles_word(), 'Профили')
-        self.go_back_to_personal_page()
+        self.click_my_office_button()
 
         # 5. Корзина
         self.click_cart()
         self.assert_word(self.get_inside_cart_word(), 'Корзина')
-        self.go_back_to_personal_page()
+        self.driver.get(self.url)
 
         # 6. Подписки
         self.click_subscriptions()
         self.assert_word(self.get_your_subscriptions_word(), 'Ваши подписки')
-        self.go_back_to_personal_page()
+        self.click_my_office_button()
 
         # 7. Контакты
         self.click_contacts()
         self.assert_word(self.get_your_contacts_word(), 'Контакты')
-        self.go_back_to_personal_page()
+        self.driver.get(self.url)
+        Logger.add_end_step(url=self.driver.current_url, method="personal_information")
+

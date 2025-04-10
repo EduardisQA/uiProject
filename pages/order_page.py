@@ -3,10 +3,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class Order_page(Base):
-
     """Класс Order_page отвечает за работу с этапом оформления заказа на сайте https://zurmarket.ru/.
     Наследуется от базового класса Base, который предоставляет универсальные методы проверки и взаимодействия с элементами.
 
@@ -67,13 +67,16 @@ class Order_page(Base):
         return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.phone_locator)))
 
     def get_product_name_order(self):
-        return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.product_name_order_locator)))
+        return WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.product_name_order_locator)))
 
     def get_product_unit_price_order(self):
-        return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.product_unit_price_order_locator)))
+        return WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.product_unit_price_order_locator)))
 
     def get_product_total_price_order(self):
-        return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.product_total_price_order_locator)))
+        return WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.product_total_price_order_locator)))
 
     def get_place_an_order(self):
         return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.place_an_order)))
@@ -82,7 +85,8 @@ class Order_page(Base):
         return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.order_is_formed)))
 
     def get_personal_office_button(self):
-        return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.personal_office_button)))
+        return WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.XPATH, self.personal_office_button)))
 
     def get_personal_office(self):
         return WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, self.personal_office)))
@@ -110,6 +114,7 @@ class Order_page(Base):
             - оформляет заказ;
             - проверяет успешное создание заказа;
             - переходит в личный кабинет покупателя."""
+        Logger.add_start_step(method="order_confirmation")
         self.driver.get(self.url)
         self.get_current_url()
         self.assert_word(self.get_payment_option(), 'Наличный расчет')
@@ -124,3 +129,4 @@ class Order_page(Base):
         self.assert_word(self.get_order_is_formed(), 'Заказ сформирован')
         self.click_personal_office_button()
         self.assert_word(self.get_personal_office(), 'Личный кабинет')
+        Logger.add_end_step(url=self.driver.current_url, method="order_confirmation")

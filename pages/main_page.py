@@ -6,6 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class Main_page(Base):
@@ -68,8 +69,7 @@ class Main_page(Base):
     samsung_tv = "//div[@id='bx_3966226736_492116']"
     samsung_tv_value = "(//span[contains(text(), 'Телевизор Samsung QE77S90daexru')])[1]"
     samsung_tv_price_value = "//span[contains(text(), '310 589 ₽')]"
-    xiaomi_monitor = "(//a[@href='/catalog/kompyutery_noutbuki_orgtekhnika" \
-                     "/monitory/monitor_asus_rog_strix_xg49vq.html'])[2]"
+    asus_monitor = "(//span[contains (text(), 'Монитор Asus Rog Strix Xg49vq')])[1]"
     gorenje_refrigerator = "//a[@id='bx_3966226736_460828_pict']"
     econ_iron = "//a[@id='bx_3966226736_436030_pict']"
     sigma_guitar = "//a[@id='bx_3966226736_383957_pict']"
@@ -78,7 +78,7 @@ class Main_page(Base):
     cart_button = "//div[@class='button_block wide']"
     monitor_value_locator = "(//a[@href='/catalog/kompyutery_noutbuki_" \
                             "orgtekhnika/monitory/monitor_asus_rog_strix_xg49vq.html'])[2]"
-    monitor_price_locator = "//div[@data-value='121162']"
+    monitor_price_locator = "(//span[@class='values_wrapper'])[1]"
     refrigerator_value_locator = "(//a[@href='/catalog/krupnaya_bytovaya_tekhnika/kholodilniki/kholodilnik_gorenje_nrk6201sybk.html'])[2]"
     product_price_element = "//div[@data-value='95090']"
     econ_iron_price_locator = "//span[contains (text(), '2 420 ₽')]"
@@ -183,8 +183,8 @@ class Main_page(Base):
     def get_samsung_tv_price_value(self):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.samsung_tv_price_value)))
 
-    def get_xiaomi_monitor(self):
-        return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.xiaomi_monitor)))
+    def get_asus_monitor(self):
+        return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.asus_monitor)))
 
     def get_gorenje_refrigerator(self):
         return WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable((By.XPATH, self.gorenje_refrigerator)))
@@ -350,9 +350,9 @@ class Main_page(Base):
         self.get_samsung_tv().click()
         print("Click filter button")
 
-    def click_xiaomi_monitor(self):
-        self.get_xiaomi_monitor().click()
-        print("Click xiaomi monitor")
+    def click_asus_monitor(self):
+        self.get_asus_monitor().click()
+        print("Click asus monitor")
 
     def click_gorenje_refrigerator(self):
         self.get_gorenje_refrigerator().click()
@@ -391,6 +391,7 @@ class Main_page(Base):
 
     def select_products_1(self):
         """Выбирает телевизор Samsung, проверяет корректность названия и цены, добавляет товар в корзину."""
+        Logger.add_start_step(method="select_products_1")
         self.driver.get(self.url)
         self.get_current_url()
         self.click_menu_tv_audio_button()
@@ -405,9 +406,11 @@ class Main_page(Base):
         self.click_cart_button()
         self.assert_url('https://zurmarket.ru/catalog/televizory_audio_'
                         'video/televizory/televizor_samsung_qe77s90daexru.html')
+        Logger.add_end_step(url=self.driver.current_url, method="select_products_1")
 
     def select_products_2(self):
         """Выбирает монитор Xiaomi с использованием фильтра цены и производителя, добавляет товар в корзину."""
+        Logger.add_start_step(method="select_products_2")
         self.driver.get(self.url)
         self.get_current_url()
         self.click_menu_laptop_equipment_button()
@@ -421,14 +424,16 @@ class Main_page(Base):
         self.product_price = self.get_monitor_price_element().text
         self.assert_word(self.get_monitor_value_element(), self.product_name)
         self.assert_price(self.get_monitor_price_element(), self.product_price)
-        self.click_xiaomi_monitor()
+        self.click_asus_monitor()
         self.assert_word(self.get_compare_the_name(), 'Монитор Asus Rog Strix Xg49vq')
         self.click_cart_button()
         self.assert_url(
             'https://zurmarket.ru/catalog/kompyutery_noutbuki_orgtekhnika/monitory/monitor_asus_rog_strix_xg49vq.html')
+        Logger.add_end_step(url=self.driver.current_url, method="select_products_2")
 
     def select_products_3(self):
         """Выбирает холодильник Gorenje с применением нескольких фильтров (наличие, производитель, высота), добавляет в корзину."""
+        Logger.add_start_step(method="select_products_3")
         self.driver.get(self.url)
         self.get_current_url()
         self.hover_on_target_menu_lha()
@@ -453,9 +458,11 @@ class Main_page(Base):
         self.click_cart_button()
         self.assert_url(
             'https://zurmarket.ru/catalog/krupnaya_bytovaya_tekhnika/kholodilniki/kholodilnik_gorenje_nrk6201sybk.html')
+        Logger.add_end_step(url=self.driver.current_url, method="select_products_3")
 
     def select_products_4(self):
         """Выбирает утюг Econ через фильтрацию по складу и производителю, добавляет товар в корзину."""
+        Logger.add_start_step(method="select_products_4")
         self.driver.get(self.url)
         self.get_current_url()
         self.hover_on_target_menu_sha()
@@ -475,9 +482,11 @@ class Main_page(Base):
         self.click_cart_button()
         self.assert_url('https://zurmarket.ru/catalog/melkaya_bytovaya_tekhnika/'
                         'tekhnika_dlya_doma/utyugi_parovye_stantsii/utyug_econ_eco_bi2402.html')
+        Logger.add_end_step(url=self.driver.current_url, method="select_products_4")
 
     def select_products_5(self):
         """Выбирает гитару Sigma из раздела музыкальных инструментов"""
+        Logger.add_start_step(method="select_products_5")
         self.driver.get(self.url)
         self.get_current_url()
         self.hover_on_target_menu_other()
@@ -490,3 +499,4 @@ class Main_page(Base):
         self.assert_word(self.get_compare_the_name(), 'Гитара Sigma Tm12-E')
         self.assert_word(self.get_compare_the_availability(), 'Нет в наличии')
         self.assert_url('https://zurmarket.ru/catalog/muzykalnye_instrumenty/gitary/gitara_sigma_tm12_e.html')
+        Logger.add_end_step(url=self.driver.current_url, method="select_products_5")

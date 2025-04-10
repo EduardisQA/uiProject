@@ -3,6 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from base.base_class import Base
+from utilities.logger import Logger
 from utilities.price_verifier import PriceVerifier
 
 
@@ -100,6 +101,7 @@ class Cart_page(Base):
             - Проверка удвоения стоимости при увеличении количества;
             - Переход к оформлению заказа;
             - Возвращение информации о товаре для дальнейших проверок."""
+        Logger.add_start_step(method="product_confirmation")
         self.driver.get(self.url)
         self.get_current_url()
         self.click_icon_cart()
@@ -111,6 +113,7 @@ class Cart_page(Base):
 
         self.click_place_order_button()
         self.assert_word(self.get_compare_page_title(), 'Оформление заказа')
+        Logger.add_end_step(url=self.driver.current_url, method="product_confirmation")
         return cart_product_info
 
     def verify_price_double(self):

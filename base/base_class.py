@@ -73,3 +73,4 @@ class Base():
                 print(f"[Retry {attempt + 1}] TimeoutException waiting for element: {value}")
                 last_exception = e
         raise last_exception
+
