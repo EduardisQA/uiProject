@@ -27,11 +27,6 @@ class Personal_page(Base):
 
     url = 'https://zurmarket.ru/personal/'
 
-    def __init__(self, driver):
-        """Конструктор класса. Принимает веб-драйвер Selenium."""
-        super().__init__(driver)
-        self.driver = driver
-
     # ===== LOCATORS =====
     # (XPath локаторы для кнопок навигации, заголовков страниц и элементов управления в личном кабинете)
 

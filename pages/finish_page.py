@@ -21,11 +21,6 @@ class Finish_page(Base):
 
     url = 'https://zurmarket.ru/'
 
-    def __init__(self, driver):
-        """Конструктор класса. Принимает веб-драйвер Selenium."""
-        super().__init__(driver)
-        self.driver = driver
-
     # ===== LOCATORS =====
 
     personal_office_logo = "//div[@class='personal top login twosmallfont']"

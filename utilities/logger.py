@@ -1,9 +1,14 @@
 import datetime
 import os
+from pathlib import Path
 
 
-class Logger():
-    file_name = f"/Users/e.shaihulov/PycharmProjects/HW_final2/logs/log_" + str(datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")) + ".log"
+class Logger:
+    logs_dir = Path(__file__).resolve().parent.parent / "logs"
+    logs_dir.mkdir(exist_ok=True)  # Создаём папку logs, если её нет
+
+    file_name = logs_dir / f"log_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.log"
+
 
     @classmethod
     def write_log_to_file(cls, data: str):

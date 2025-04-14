@@ -24,13 +24,8 @@ class login_page(Base):
     """
 
     url = 'https://zurmarket.ru/'
-    name = 'shaihulove@yandex.ru'
+    name = 'shaihulove@rambler.ru'
     user_password = 's_yCzdD_93pvECd'
-
-    def __init__(self, driver):
-        """Конструктор класса. Принимает веб-драйвер Selenium."""
-        super().__init__(driver)
-        self.driver = driver
 
     # ===== LOCATORS =====
 

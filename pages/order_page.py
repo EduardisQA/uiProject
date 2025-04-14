@@ -28,11 +28,6 @@ class Order_page(Base):
 
     url = 'https://zurmarket.ru/order/'
 
-    def __init__(self, driver):
-        """Конструктор класса. Принимает веб-драйвер Selenium."""
-        super().__init__(driver)
-        self.driver = driver
-
     # ===== LOCATORS =====
     # (XPath локаторы для поиска способов оплаты, доставки, информации о товаре и кнопок)
 
@@ -122,8 +117,8 @@ class Order_page(Base):
             self.assert_word(self.get_payment_option(), 'Наличный расчет')
             self.assert_word(self.get_delivery_option(), 'Самовывоз по адресу пр-кт Ямашева, 45 (г. Казань)')
             self.assert_word(self.get_name_element(), 'Эдуард')
-            self.assert_word(self.get_email_element(), 'shaihulove@yandex.ru')
-            self.assert_word(self.get_phone_element(), '8 (950) 323-22-37')
+            self.assert_word(self.get_email_element(), 'shaihulove@rambler.ru')
+            self.assert_word(self.get_phone_element(), '7 (950) 323-22-37')
             self.assert_word(self.get_product_name_order(), product_info["name"])
             self.assert_price(self.get_product_unit_price_order(), product_info["unit_price"])
             self.assert_price(self.get_product_total_price_order(), product_info["total_price"])
